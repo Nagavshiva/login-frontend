@@ -5,6 +5,8 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import AuthRoute from './components/AuthRoute';
+import ProfileDetails from './pages/ProfileDetails ';
+
 
 function App() {
   return (
@@ -18,6 +20,14 @@ function App() {
           element={
             <AuthRoute>
               <Profile />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/profiledetails"
+          element={
+            <AuthRoute>
+              <ProfileDetails />
             </AuthRoute>
           }
         />

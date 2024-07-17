@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import axios from '../api/axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +15,7 @@ const Profile = () => {
     mobile: '',
   });
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -42,14 +46,15 @@ const Profile = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put('/user/profile', formData, {
+      const response = await axios.put('/user/updateProfile', formData, {
         headers: {
           'x-auth-token': token,
         },
       });
-      setMessage(response.data.msg);
+      toast.success(response.data.msg);
+      navigate('/profiledetails', { state: { formData } });
     } catch (err) {
-      setMessage(err.response.data.msg);
+      toast.error(err.response.data.msg);
     }
   };
 
@@ -123,6 +128,7 @@ const Profile = () => {
             {message}
           </Typography>
         )}
+        <ToastContainer />
       </Box>
     </Container>
   );
